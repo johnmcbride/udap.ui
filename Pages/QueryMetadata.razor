@@ -1,0 +1,67 @@
+@page "/querymetadata"
+@using Newtonsoft.Json.Linq
+
+<MudTextField @bind-Value="BaseUrl" Label="Base URL" Variant="Variant.Outlined"></MudTextField>
+
+<MudButton @onclick="queryUdap" Variant="Variant.Filled" Color="Color.Primary">Query Metadata</MudButton>
+<MudCheckBox @bind-Checked="@AllowUntrusted" Label="Allow untrusted certs"></MudCheckBox>
+<MudProgressLinear @bind-hidden="@ShowProgress" Color="Color.Primary" Indeterminate="true" Class="my-7" />
+<MudTabs>
+    <MudTabPanel Text="Returned Values">
+        
+    </MudTabPanel>
+    <MudTabPanel Text="JSON Metadata">
+        @* <JsonViewer @ref="JsonViewerInstance"></JsonViewer> *@
+        <pre>
+            @UdapMetadataJson
+        </pre>
+    </MudTabPanel>
+    <MudTabPanel Text="Signed Metadata">
+        @UdapSignedMetadata
+    </MudTabPanel>
+    <MudTabPanel Text="Decrypted Signed Metadata">
+        @UdapDecryptedSignedMetadata
+    </MudTabPanel>
+</MudTabs>
+
+@code {
+    public bool ShowProgress { get; set; } = false;
+    public string UdapMetadataJson { get; set; }
+    public string UdapSignedMetadata { get; set; }
+    public string UdapDecryptedSignedMetadata { get; set; }
+    public bool AllowUntrusted { get; set; }
+    public string BaseUrl { get; set; }
+
+    private async void queryUdap()
+    {
+        Console.WriteLine("Setting progress");
+        ShowProgress = false;
+        Console.WriteLine(ShowProgress);
+        return;
+        UdapMetadataJson = "";
+        HttpClient client = null;
+        if ( AllowUntrusted)
+        {
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyError) => {
+                return true;
+            };
+            client = new HttpClient(handler);
+        }
+        else
+        {
+            client = new HttpClient();
+        }
+
+        client.BaseAddress = new System.Uri(BaseUrl);
+        UdapMetadataJson = await client.GetStringAsync("/.well-known/udap");
+        
+        var udapMetadata  = JObject.Parse(UdapMetadataJson);
+
+        //get the signed metadata
+        UdapSignedMetadata = udapMetadata.Value<string>("signed_metadata");
+@* Console.WriteLine(udapMetadata); *@
+        @* await JsonViewerInstance.Render(udapMetadata); *@
+    }
+}

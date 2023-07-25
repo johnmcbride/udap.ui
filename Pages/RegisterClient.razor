@@ -1,0 +1,43 @@
+@page "/registerclient"
+
+<MudTabs>
+    <MudTabPanel Text="Create JSON">
+        <MudTextField @bind-Value="@iss" HelperText="Issuer of the JWT" Label="iss" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@iss" HelperText="" Label="sub" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@aud" HelperText="" Label="aud" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@exp" HelperText="" Label="exp" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@iat" HelperText="" Label="iat" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@jti" HelperText="" Label="jti" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@client_name" HelperText="" Label="client_name" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@redirect_uris" HelperText="" Label="redirect_uris" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@contacts" HelperText="" Label="contacts" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@logo_uri" HelperText="" Label="logo_uri" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@grant_types" HelperText="" Label="grant_types" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@response_types" HelperText="" Label="response_types" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@token_endpoint_auth_method" HelperText="" Label="token_endpoint_auth_method" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="@scope" HelperText="" Label="scope" Variant="Variant.Outlined"></MudTextField>
+    </MudTabPanel>
+    <MudTabPanel Text="JSON">
+
+    </MudTabPanel>
+</MudTabs>
+
+
+@code {
+    public string iss { get; set; }
+    public string aud { get; set; }
+    public string exp { get; set; }
+    public string iat { get; set; }
+    public string jti { get; set; }
+    public string client_name { get; set; }
+    public string redirect_uris { get; set; }
+    public string contacts { get; set; }
+    public string logo_uri { get; set; }
+    public string grant_types { get; set; }
+    public string response_types { get; set; }
+    public string token_endpoint_auth_method { get; set; }
+    public string scope { get; set; }
+    
+
+
+}
